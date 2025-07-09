@@ -90,8 +90,8 @@ Este projeto foi desenvolvido por [Seu Nome/Nome da Equipe].
 
 Para dúvidas, sugestões ou colaborações, por favor, entre em contato através de:
 
-*   **E-mail:** [kauany.violin@gmail.com]
-*   **GitHub:** [Seu perfil do GitHub ou link do repositório]
+*   **E-mail:** kauany.violin@gmail.com
+*   **GitHub:** kawdevlops
 
 
 

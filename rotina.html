@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Rotina - CalmaMente</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/calmamente.css">
+
+</head>
+
+<body>
+    <div class="container-fluid container-int">
+        <header class="row header-caixa py-3">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="img/logo.jpg" alt="Logo CalmaMente" class="me-2 rounded-circle">
+                    <h1 class="titulo-header m-1" style="text-align: center;">Minhas conquistas do Dia</h1>
+                </div>
+                <div class="caixa-usuario">
+                    <span id="nome-usuario-header" class="me-5">Olá!</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="mt-4">
+            <div class="card blocos-dados">
+                <div class="card-body" id="checklist-container">
+                </div>
+            </div>
+            <div class="card blocos-dados mt-3">
+                <div class="card-body">
+                    <h3 class="titulo-blocos" style="font-size: 1.1rem;">Adicionar Nova Tarefa</h3>
+                    <input type="text" id="nova-tarefa-input" class="form-control"
+                        placeholder="Escreva sua tarefa aqui...">
+                    <button id="add-tarefa-btn" class="btn w-100 mt-2"
+                        style="background-color: var(--cor-sucesso ); color: white;">Adicionar</button>
+                </div>
+            </div>
+        </main>
+
+        <nav class="navbar fixed-bottom neuro-navbar">
+            <div class="w-100 d-flex justify-content-around">
+                <a href="index.html" class="neuro-nav-item"><i class="fas fa-home"></i><span>Início</span></a>
+                <a href="rotina.html" class="neuro-nav-item active"><i
+                        class="fas fa-check-circle"></i><span>Rotina</span></a>
+                <a href="humor.html" class="neuro-nav-item"><i class="fas fa-smile"></i><span>Humor</span></a>
+                <a href="ajustes.html" class="neuro-nav-item"><i class="fas fa-cog"></i><span>Ajustes</span></a>
+            </div>
+        </nav>
+    </div>
+
+    <nav class="navbar fixed-bottom neuro-navbar">
+        <div class="container-fluid">
+            <div class="w-100 d-flex justify-content-around">
+                <a href="index.html" class="neuro-nav-item active"><i class="fas fa-home"></i><span>Início</span></a>
+                <a href="rotina.html" class="neuro-nav-item"><i class="fas fa-check-circle"></i><span>Rotina</span></a>
+                <a href="humor.html" class="neuro-nav-item"><i class="fas fa-smile"></i><span>Humor</span></a>
+                <a href="ajustes.html" class="neuro-nav-item"><i class="fas fa-cog"></i><span>Ajustes</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        const container = document.getElementById('checklist-container');
+        const addBtn = document.getElementById('add-tarefa-btn');
+        const input = document.getElementById('nova-tarefa-input');
+
+        let tarefas = JSON.parse(localStorage.getItem('tarefasDiarias')) || [
+            { texto: 'Arrumar a cama', feito: false },
+            { texto: 'Tomar remédio da manhã', feito: false },
+            { texto: 'Beber um copo d\'água', feito: false }
+        ];
+
+        function salvarTarefas() {
+            localStorage.setItem('tarefasDiarias', JSON.stringify(tarefas));
+        }
+
+        function renderizarTarefas() {
+            container.innerHTML = '';
+            if (tarefas.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">Nenhuma tarefa por aqui!</p>';
+            }
+            tarefas.forEach((tarefa, index) => {
+                const div = document.createElement('div');
+                div.className = 'checklist-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="tarefa-${index}" ${tarefa.feito ? 'checked' : ''}>
+                    <label for="tarefa-${index}">${tarefa.texto}</label>
+                    <button class="btn-remover-tarefa" data-index="${index}">&times;</button>
+                `;
+                container.appendChild(div);
+
+                div.querySelector(`#tarefa-${index}`).addEventListener('change', (e) => {
+                    tarefas[index].feito = e.target.checked;
+                    salvarTarefas();
+                });
+
+                div.querySelector('.btn-remover-tarefa').addEventListener('click', (e) => {
+                    tarefas.splice(index, 1);
+                    salvarTarefas();
+                    renderizarTarefas();
+                });
+            });
+        }
+
+        addBtn.addEventListener('click', () => {
+            const textoTarefa = input.value.trim();
+            if (textoTarefa) {
+                tarefas.push({ texto: textoTarefa, feito: false });
+                input.value = '';
+                salvarTarefas();
+                renderizarTarefas();
+            }
+        });
+
+        renderizarTarefas();
+
+
+    </script>
+</body>
+
+</html>

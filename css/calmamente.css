@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Mono&display=swap');
+
+:root {
+    --cor-primaria: #6a4c93;
+    --cor-fundo: #f5f3f7;
+    --cor-texto: #343a40;
+    --cor-sucesso: #28a745;
+    --cor-perigo: #dc3545;
+    --cor-branco: #ffffff;
+    --cor-cinza-claro: #e9ecef;
+}
+
+body {
+    background-color: var(--cor-cinza-claro);
+    padding-bottom: 80px;
+}
+
+.container-int {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Cabeçalho Roxo*/
+.header-caixa {
+    background-color: var(--cor-primaria);
+    color: var(--cor-branco);
+    border-radius: 0 0 20px 20px;
+    padding: 20px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-caixa img {
+    width: 150px;
+    height: 150px;
+}
+
+.titulo-header {
+    font-weight: 700;
+    font-size: 1.8rem;
+    /* Tamanho ajustado para responsividade */
+    color: var(--cor-branco);
+}
+
+.caixa-usuario {
+    font-size: 1rem;
+    color: var(--cor-branco);
+}
+
+/* Cards Principais*/
+.blocos-dados {
+    background-color: var(--cor-branco);
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 8px 8px var(--cor-fundo);
+    padding: 20px;
+}
+
+.titulo-blocos {
+    font-size: 1.50rem;
+    color: var(--cor-primaria);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Menu de Navegação Inferior */
+.neuro-navbar {
+    background-color: var(--cor-branco);
+    box-shadow: 0 -8px 10px rgba(0, 0, 0, 0.1);
+    height: 65px;
+}
+
+.neuro-nav-item {
+    color: #888;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0, 8rem;
+    transition: color 0.3s ease;
+}
+
+.neuro-nav-item:hover {
+    color: var(--cor-cinza-claro);
+}
+
+.neuro-nav-item.active {
+    color: var(--cor-primaria);
+    font-weight: bolder;
+}
+
+/* Checklist de Rotina */
+.checklist-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 5px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--cor-cinza-claro);
+}
+
+.checklist-item:last-child {
+    border-bottom: none;
+}
+
+.checklist-item input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    margin-right: 15px;
+    cursor: pointer;
+    accent-color: var(--cor-primaria);
+}
+
+.checklist-item label {
+    cursor: pointer;
+}
+
+.checklist-item input[type="checkbox"]:checked+label {
+    text-decoration: line-through;
+    color: var(--cor-sucesso);
+}
+
+.btn-remover-tarefa {
+    background: none;
+    border: none;
+    color: var(--cor-primaria);
+    font-size: 1.5rem;
+    margin-left: auto;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.btn-remover-tarefa:hover {
+    color: var(--cor-perigo);
+}
+
+/* Seleção de Humor */
+.humor-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.btn-humor {
+    background: none;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-humor i {
+    color: #9d13ed;
+    transition: all 0.3s ease;
+}
+
+.btn-humor:hover i,
+.btn-humor.selected i {
+    color: var(--cor-primaria);
+}
+
+.btn-humor.selected {
+    border-color: var(--cor-primaria);
+    transform: scale(1.1);
+}
+
+/* Botão e Tela de SOS */
+.sos-button {
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background-color: var(--cor-perigo);
+    color: var(--cor-branco);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px #9d13ed;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+}
+
+.sos-button:hover {
+    transform: scale(1.05);
+}
+
+.sos-button i {
+    font-size: 24px;
+}
+
+.sos-button span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.overlay-sos {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #281c3ef7;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--cor-branco);
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.overlay-sos.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.close-sos {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--cor-branco);
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.sos-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sos-instruction {
+    font-size: 1.1rem;
+    color: #ddd;
+}
+
+/* Animação de Respiração */
+.respiracao-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circulo-respiracao {
+    width: 100px;
+    height: 100px;
+    background-color: var(--cor-primaria);
+    border-radius: 50%;
+    animation: respirar 8s ease-in-out infinite;
+}
+
+.respiracao-texto {
+    position: absolute;
+    color: var(--cor-branco);
+    font-size: 1.2rem;
+    animation: texto-respirar 8s ease-in-out infinite;
+}
+
+@keyframes respirar {
+    0% {
+        transform: scale(0.8);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(0.8);
+    }
+}
+
+@keyframes texto-respirar {
+    0% {
+        content: "Inspire...";
+        opacity: 1;
+    }
+
+    49% {
+        opacity: 0;
+    }
+
+    50% {
+        content: "Expire...";
+        opacity: 1;
+    }
+
+    99% {
+        opacity: 0;
+    }
+
+    100% {
+        content: "Inspire...";
+        opacity: 1;
+    }
+}
+
+/* Botões de Som e Apoio na tela SOS */
+.sons-container {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-som,
+.btn-ligar-apoio {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--cor-branco);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.btn-som:hover,
+.btn-ligar-apoio:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== 4. RESPONSIVIDADE ===== */
+@media (max-width: 480px) {
+    .titulo-header {
+        font-size: 1.5rem;
+    }
+
+    .sos-title {
+        font-size: 1.8rem;
+    }
+
+    .respiracao-container {
+        width: 150px;
+        height: 150px;
+    }
+
+    .circulo-respiracao {
+        width: 80px;
+        height: 80px;
+    }
+}

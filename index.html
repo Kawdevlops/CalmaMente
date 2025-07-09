@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalmaMente - Seu Apoio Diário</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/calmamente.css">
+</head>
+
+<body>
+    <div class="container-fluid container-int">
+        <header class="row header-caixa py-3">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="img/logo.jpg" alt="Logo CalmaMente" class="me-2 rounded-circle">
+                    <h1 class="titulo-header m-1">CalmaMente</h1>
+                </div>
+                <div class="caixa-usuario">
+                    <span id="nome-usuario-header" class="me-5">Olá!</span>
+                </div>
+            </div>
+        </header>
+        <section class="row blocos-dados mt-4">
+            <div class="col-12">
+                <div class="card blocos-dados">
+                    <div class="card-body">
+                        <h2 class="card-title titulo-blocos">Resumo do Dia</h2>
+                        <p id="resumo-rotina">Carregando suas tarefas...</p>
+                        <a href="rotina.html" class="btn btn-sm btn btn-outline-secondary mt-2">Ver todas as tarefas</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="row blocos-dados mt-4">
+            <div class="col-12">
+                <div class="card blocos-dados">
+                    <div class="card-body">
+                        <h2 class="card-title titulo-blocos">Seu humor hoje</h2>
+                        <div id="resumo-humor" class="text-center p-2" ">
+                            <p>Nenhum humor registrado ainda.</p>
+                        </div>
+                        <a href=" humor.html" class="btn btn-sm btn btn-outline-secondary mt-2">Ver histórico de
+                            humor</a>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </div>
+
+    <button class="sos-button" id="sos-btn">
+        <i class="fas fa-heartbeat"></i>
+        <span>SOS</span>
+    </button>
+    <div class="overlay-sos" id="sos-overlay">
+        <button class="close-sos" id="close-sos-btn">&times;</button>
+        <h2 class="sos-title">Acalme-se. Respire.</h2>
+        <div class="respiracao-container">
+            <div class="circulo-respiracao"></div>
+            <span class="respiracao-texto">Inspire...</span>
+        </div>
+        <div class="sons-container mt-4">
+            <button class="btn-som" data-som="chuva"><i class="fas fa-cloud-rain me-2"></i>Chuva</button>
+            <button class="btn-som" data-som="floresta"><i class="fas fa-tree me-2"></i>Floresta</button>
+            <button class="btn-som" data-som="ondas"><i class="fas fa-water me-2"></i>Ondas</button>
+        </div>
+        <audio id="audio-chuva" src="sons/chuva.mp3" loop></audio>
+        <audio id="audio-floresta" src="sons/floresta.mp3" loop></audio>
+        <audio id="audio-ondas" src="sons/ondas.mp3" loop></audio>
+        <a href="#" id="link-ligar-apoio" class="btn-ligar-apoio mt-4">
+            <i class="fas fa-phone-alt me-2"></i> Ligar para Apoio
+        </a>
+    </div>
+
+    <nav class="navbar fixed-bottom neuro-navbar">
+        <div class="container-fluid">
+            <div class="w-100 d-flex justify-content-around">
+                <a href="index.html" class="neuro-nav-item active"><i class="fas fa-home"></i><span>Início</span></a>
+                <a href="rotina.html" class="neuro-nav-item"><i class="fas fa-check-circle"></i><span>Rotina</span></a>
+                <a href="humor.html" class="neuro-nav-item"><i class="fas fa-smile"></i><span>Humor</span></a>
+                <a href="ajustes.html" class="neuro-nav-item"><i class="fas fa-cog"></i><span>Ajustes</span></a>
+            </div>
+        </div>
+    </nav>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        // Espera o conteúdo da página carregar completamente
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // VERIFICAÇÃO DE CADASTRO 
+            const nomeUsuario = localStorage.getItem('usuarioNome');
+            if (!nomeUsuario) {
+                // Se não houver nome salvo, redireciona para a tela de cadastro
+                window.location.href = 'cadastro.html';
+                return; // Para a execução do script para evitar erros
+            }
+
+            // CARREGAR DADOS DINÂMICOS NA PÁGINA 
+            // Atualiza o cabeçalho com o nome do usuário
+            document.getElementById('nome-usuario-header').textContent = `Olá, ${nomeUsuario}`;
+
+            // Atualiza o resumo da rotina
+            const tarefas = JSON.parse(localStorage.getItem('tarefasDiarias')) || [];
+            const tarefasFeitas = tarefas.filter(t => t.feito).length;
+            document.getElementById('resumo-rotina').textContent = `Você completou ${tarefasFeitas} de ${tarefas.length} tarefas hoje. Continue assim!`;
+
+            // Atualiza o resumo do humor
+            const humorDeHoje = localStorage.getItem('humorDoDia');
+            const resumoHumorContainer = document.getElementById('resumo-humor');
+            if (humorDeHoje) {
+                const icones = { feliz: 'fa-smile', neutro: 'fa-meh', triste: 'fa-frown', ansioso: 'fa-flushed', raiva: 'fa-angry' };
+                resumoHumorContainer.innerHTML = `<i class="fas ${icones[humorDeHoje]} fa-3x" style="color: #9d13ed"></i>`;
+            } else {
+                resumoHumorContainer.innerHTML = `<p class="text-muted">Você ainda não registrou seu humor hoje.</p>`;
+            }
+
+            // Configura o link de ligação para o contato de apoio
+            const telefoneApoio = localStorage.getItem('contatoApoioTelefone');
+            const nomeApoio = localStorage.getItem('contatoApoioNome');
+            const linkLigar = document.getElementById('link-ligar-apoio');
+            if (telefoneApoio) {
+                // Remove caracteres não numéricos para o link tel:
+                const telefoneLimpo = telefoneApoio.replace(/\D/g, '');
+                linkLigar.href = `tel:${telefoneLimpo}`;
+                linkLigar.innerHTML = `<i class="fas fa-phone-alt me-2"></i> Ligar para ${nomeApoio}`;
+            }
+
+            // --- 3. LÓGICA DO BOTÃO E TELA DE SOS ---
+            const sosBtn = document.getElementById('sos-btn');
+            const sosOverlay = document.getElementById('sos-overlay');
+            const closeSosBtn = document.getElementById('close-sos-btn');
+            const audioElements = {
+                chuva: document.getElementById('audio-chuva'),
+                floresta: document.getElementById('audio-floresta'),
+                ondas: document.getElementById('audio-ondas')
+            };
+            let somAtual = null;
+
+            // Abre a tela de SOS
+            sosBtn.addEventListener('click', () => {
+                sosOverlay.classList.add('visible');
+            });
+
+            // Fecha a tela de SOS
+            closeSosBtn.addEventListener('click', () => {
+                sosOverlay.classList.remove('visible');
+                // Para qualquer som que estiver tocando ao fechar
+                if (somAtual) {
+                    somAtual.pause();
+                    somAtual.currentTime = 0;
+                    somAtual = null;
+                }
+            });
+
+            // Controla os botões de som
+            document.querySelectorAll('.btn-som').forEach(button => {
+                button.addEventListener('click', () => {
+                    const somEscolhido = button.dataset.som;
+                    const audioParaTocar = audioElements[somEscolhido];
+
+                    // Se um som já estiver tocando, para ele
+                    if (somAtual && somAtual !== audioParaTocar) {
+                        somAtual.pause();
+                    }
+
+                    // Toca ou pausa o som escolhido
+                    if (audioParaTocar.paused) {
+                        audioParaTocar.play();
+                        somAtual = audioParaTocar;
+                    } else {
+                        audioParaTocar.pause();
+                        somAtual = null;
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
